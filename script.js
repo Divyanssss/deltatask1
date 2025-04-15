@@ -2,8 +2,8 @@
 const middle = document.getElementById("middle");
 const X = window.innerWidth / 2;
 const Y = window.innerHeight / 2;
-for (let i=0;i<6;i++) {
-    const r = 100;
+for(let i=0;i<6;i++){
+    const r=100;
     const angle=(Math.PI/3)*i;
     const x=X+r*Math.cos(angle);
     const y=Y+r*Math.sin(angle);
@@ -12,18 +12,17 @@ for (let i=0;i<6;i++) {
     btn.style.top=`${y-100}px`;
     
 }
-for (let i=0;i<6;i++) {
-    const r = 200;
+for(let i=0;i<6;i++){
+    const r=200;
     const angle=(Math.PI/3)*i;
     const x=X+r*Math.cos(angle);
     const y=Y+r*Math.sin(angle);
     const btn=document.getElementById(`m${i + 1}`);
     btn.style.left=`${x-125}px`;
-    btn.style.top=`${y-100}px`;
-    
+    btn.style.top=`${y-100}px`;   
 }
-for (let i=0;i<6;i++) {
-    const r = 300;
+for(let i=0;i<6;i++){
+    const r=300;
     const angle=(Math.PI/3)*i;
     const x=X+r*Math.cos(angle);
     const y=Y+r*Math.sin(angle);
@@ -32,18 +31,35 @@ for (let i=0;i<6;i++) {
     btn.style.top=`${y-100}px`;
     
 }
+const pointstable={
+    "o1-o2":1,"o2-o3":1,"o3-o4":1,"o4-o5":1,"o5-o6":7,"o6-o1":1,
+    "m1-m2":2,"m2-m3":2,"m3-m4":2,"m4-m5":2,"m5-m6":2,"m6-m1":2,
+    "i1-i2":3,"i2-i3":3,"i3-i4":3,"i4-i5":3,"i5-i6":3,"i6-i1":3,
+    "o2-m2":2,"o4-m4":2,"o6-m6":2,
+    "m1-i1":3,"m3-i3":3,"m5-i5":3
+};
 let turn=0;
 let secondturn=0;
+let paused = false;
 let id1=0;
+let bluepos=[];
+let redpos=[];
 document.getElementById("currentplayer").style.backgroundColor="blue";
 
 
 function gamelogic(id){
+    if(paused){
+        return;
+    }
+   
+    timer();
+    
     if(turn<8){
         startphase(id);
     }
 else{gamephase(id);}
-check();}
+check();
+innercheck()}
 function startphase(id){
     if(turn<6&&id[0]!="o"){
         alert("Please fill outer layer first");
@@ -54,15 +70,22 @@ function startphase(id){
     if(turn%2==0){
         document.getElementById("currentplayer").style.backgroundColor="red";
         document.getElementById(`${id}`).style.backgroundColor="blue";
+        bluepos.push(id);
+        if(turn>=2){points("blue");}
+        
     }
     else{
         document.getElementById("currentplayer").style.backgroundColor="blue";
         document.getElementById(`${id}`).style.backgroundColor="red";
+        redpos.push(id);
+        if(turn>=3){points("red");}
     }
     turn++;
+    
 
 }
 function gamephase(id){
+    
   
   
     if(turn%2==0){
@@ -103,27 +126,31 @@ function gamephase(id){
 
 
 
-function movetitan(id,id1,col){
-    
-    if(rightmove(id,id1)){if(col=="blue"){ document.getElementById(`${id}`).style.backgroundColor="blue";
-            document.getElementById(`${id1}`).style.backgroundColor="rgb(68,68,68)";
-            document.getElementById("currentplayer").style.backgroundColor="red";
-
+    function movetitan(id,id1,col) {
+        if (rightmove(id,id1)) {
+            document.getElementById(id).style.backgroundColor = col;
+            document.getElementById(id1).style.backgroundColor = "rgb(68,68,68)";
+            if(col=="blue") {
+                document.getElementById("currentplayer").style.backgroundColor = "red";
+            }else{
+                document.getElementById("currentplayer").style.backgroundColor = "blue";
+            }
+            
+            if(col=="blue"){
+                bluepos=bluepos.filter(pos=>pos!=id1);
+                bluepos.push(id);
+            }else{
+                redpos=redpos.filter(pos=>pos!=id1);
+                redpos.push(id);
+            }
+            points(col);
             turn++;
-        secondturn=0;}
-        if(col=="red"){ document.getElementById(`${id}`).style.backgroundColor="red";
-            document.getElementById(`${id1}`).style.backgroundColor="rgb(68,68,68)";
-            document.getElementById("currentplayer").style.backgroundColor="blue";
-            turn++;
-        secondturn=0;}}
-
-    
-    
-
-}
+            secondturn = 0;
+        }
+    }
 function rightmove(id,id1){
-    const pos1 = parseInt(id1[1]);
-    const pos2 = parseInt(id[1]);
+    const pos1=parseInt(id1[1]);
+    const pos2=parseInt(id[1]);
     if(id1[0]=="o"){if((id[0]=="o"&&(pos1==(pos2+1)||pos1==(pos2-1)||(pos1==6&&pos2==1)||(pos1==1&&pos2==6)))||(id[0]=="m"&&pos1==pos2&&pos1%2==0)){
         return true;
     }}
@@ -136,10 +163,172 @@ function rightmove(id,id1){
 alert("Invalid move");
     return false;
     }
-function check(){
+
+
     
+
+
+let playertime;
+let endtime;
+
+function timer(){
+    const time=document.getElementById("playertimer");
+   
+    if(playertime){
+        clearInterval(playertime);
+    }
+    let pc=0;
+    time.innerHTML=`TURN ENDS IN:${60}`;
+    playertime=setInterval(() => {
+        if(paused){
+            
+            return;
+
+        }
+        if(pc==60){
+            pc=0;
+            endgame("playertimeout");
+            return;
+        }
+        time.innerHTML=`TURN ENDS IN:${59-pc}`;
+        pc++;
+    }, 1000);
+    const totaltime=document.getElementById("timer");
+    let gc=1;
+    if(turn==0){
+        endtime=setInterval(() => {
+            if(paused){return;}
+            if(gc==600){
+                gc=0;
+                endgame("totaltime");
+                return;
+            }
+            const minutes=Math.floor((600-gc-1)/60);
+            const seconds=(600-gc)%60;
+            totaltime.innerHTML=`TOTAL TIME LEFT:0${minutes}:${seconds}`;
+            gc++;
+        },1000);
+    }
+    
+
+
+
+}
+function points(color){
+    let positions;
+    if(color=="blue"){
+        positions=bluepos;
+    }else{
+        positions=redpos;
+    }
+    let totalpoints = 0;
+    for(let i=0;i<positions.length;i++){
+        for(let j=i+1;j<positions.length;j++){
+            const pos1=positions[i];
+            const pos2=positions[j];
+            if(pointstable[`${pos1}-${pos2}`]||pointstable[`${pos2}-${pos1}`]){
+                totalpoints=totalpoints+pointstable[`${pos1}-${pos2}`]||pointstable[`${pos2}-${pos1}`];
+            }
+        }
+    }
+    if(color=="blue"){
+        document.getElementById("bluepoint").innerHTML=`BLUE POINTS: ${totalpoints}`;
+    }else{
+        document.getElementById("redpoint").innerHTML=`RED POINTS: ${totalpoints}`;
+    }}
+    function innercheck(){
+        let counti=0;
+        for(let i=0;i<4;i++){
+            if(bluepos[i][0]=="i"){
+                counti++;
+            }
+            if(redpos[i][0]=="i"){
+                counti++;
+            }
+        }
+      if(counti==6){
+        endgame("innersix");
+      }
+    }
+
+
+
+
+function endgame(type){
+
+    const gameover=document.getElementById("gameover");
+    let endmsg="";
+
+    if(type=="playertimeout") {
+        if(document.getElementById("currentplayer").style.backgroundColor=="blue"){
+            endmsg="Time's up for the BLUE!RED WINS";}
+    
+        else{
+            endmsg="Time's up for the RED!BLUE WINS";
+            } 
+        }
+   
+
+    else{
+        const bluePoints=parseInt(document.getElementById("bluepoint").innerHTML.split(": "));
+        const redPoints=parseInt(document.getElementById("redpoint").innerHTML.split(": "));
+        if(redPoints[1]>bluePoints[1]){
+            endmsg="RED WINS"
+        }
+        else if(redPoints[1]>bluePoints[1]){
+             endmsg="BLUE WINS"
+
+        }
+        else{
+            endmsg="ITS A TIE"
+        }
+
+            }
+            gameover.innerHTML=`<h1>${endmsg}</h1>`;
+            clearInterval(playertime);
+            clearInterval(endtime);
+            gameover.style.display="block";
+
 
 }
 
 
+function restart(){
+    turn = 0;
+    secondturn = 0;
+    id1 = 0;
+    bluepos = [];
+    redpos = [];
+    paused = false;
+    clearInterval(playertime);
+    clearInterval(endtime);
+    timer();
+    document.querySelectorAll("#places button").forEach(button => {
+        button.style.backgroundColor = "rgb(68,68,68)";
+        button.disabled = false;
+    });
+    document.getElementById("currentplayer").style.backgroundColor = "blue";
+    document.getElementById("bluepoint").innerHTML = "BLUE POINTS: 0";
+    document.getElementById("redpoint").innerHTML = "RED POINTS: 0";
+    document.getElementById("gameover").style.display = "none";
+document.getElementById("pause").disabled = false;
+document.getElementById("resume").disabled = true;
 
+  
+}
+function pause(){
+    paused=true;
+    
+    document.getElementById("pause").disabled = true;
+    document.getElementById("resume").disabled = false;
+   
+ 
+
+}
+function resume(){
+    paused=false;
+    timer();
+    document.getElementById("pause").disabled=false;
+    document.getElementById("resume").disabled=true;
+   
+}
