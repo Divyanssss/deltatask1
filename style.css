@@ -67,4 +67,25 @@ body {
     font:black;
    
 }
+.line {
+    position: absolute;
+    background-color: white;
+    height: 4px;
+    z-index: -1; 
+}
+.linepoints{
+    position:absolute;
+    transform: translate(-50%,-50%);
+    background-color:grey;
+    
+    border-radius: 50%;
+    
+    
+    color:rgb(15, 15, 15);
+    font-size:25px;
+    
+  
+    
+    z-index: 1;
+}
 

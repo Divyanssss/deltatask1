@@ -37,10 +37,59 @@ const pointstable={
     "i1-i2":3,"i2-i3":3,"i3-i4":3,"i4-i5":3,"i5-i6":3,"i6-i1":3,
     "o2-m2":2,"o4-m4":2,"o6-m6":2,
     "m1-i1":3,"m3-i3":3,"m5-i5":3
+
 };
+
+    const grid=document.getElementById("places");
+    for(let i in pointstable){
+        let points=i.split("-");
+        let p1=points[0];
+        let p2=points[1];
+        const btn1=document.getElementById(p1);
+        const btn2=document.getElementById(p2);
+
+       
+            const x1=parseInt(btn1.style.left)+25; 
+            const y1=parseInt(btn1.style.top)+25;  
+            const x2=parseInt(btn2.style.left)+25;
+            const y2=parseInt(btn2.style.top)+25;
+            const l=Math.sqrt((x2-x1)**2+(y2-y1)**2);
+            let angle=(Math.atan((y2-y1)/(x2-x1))*180)/Math.PI;
+            if(x1>x2){
+                angle=angle+180;
+            }
+            const X=(x1+x2)/2;
+            const Y=(y1+y2)/2;
+            
+            const line=document.createElement("div");
+            line.className="line";
+            line.style.width=`${l}px`;
+            line.style.transform=`rotate(${angle}deg)`;
+            line.style.left=`${X-l/2}px`;
+            line.style.top=`${Y}px`;
+
+          
+            grid.appendChild(line);
+         
+
+const linepoints=document.createElement("div");
+linepoints.className="linepoints";
+linepoints.innerText=pointstable[i];
+
+
+
+linepoints.style.left=`${X}px`;
+linepoints.style.top=`${Y}px`; 
+grid.appendChild(linepoints);
+
+
+
+        
+    }
+
 let turn=0;
 let secondturn=0;
-let paused = false;
+let paused=false;
 let id1=0;
 let bluepos=[];
 let redpos=[];
@@ -327,7 +376,7 @@ function pause(){
 }
 function resume(){
     paused=false;
-    timer();
+   
     document.getElementById("pause").disabled=false;
     document.getElementById("resume").disabled=true;
    
