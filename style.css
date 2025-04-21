@@ -1,20 +1,49 @@
+
+
 body {
-    background-color:grey;
-    font-family:Arial,sans-serif;
-  
+
+    font-family: Arial, sans-serif;
+}
+
+#board {
+    position: absolute;
+    top:0;
+    left:0;
+    width:100vw;
+    height:100vh;
+    background-image:url('gamebackground.png');
+    background-size:cover;
+    background-repeat:no-repeat;
+    background-position:center;
+    z-index:-2;
+    
 }
 
 
 #places button {
-    background-color:rgb(68,68,68);
+    background-color:rgba(39, 8, 63, 0.666);
     color:white; 
     border-radius:100%;
-    width:50px; 
-    height:50px;
-    border:solid 2px white;
-    border-color:white; 
+    width:70px; 
+    height:70px;
+    border:solid 1px rgba(255, 255, 255, 0.548);
+  
     position:absolute;
+    backdrop-filter: blur(10px);
+    box-shadow: 0 0 10px 2px rgba(255, 255, 255, 0.718);
+    transition: box-shadow 0.3s ease, transform 0.3s ease;
+    
+
 }
+#places button:hover {
+    box-shadow: 0 0 17px 4px rgba(177, 185, 255, 0.718);
+    transform: scale(1.05);
+}
+#places button:active {
+    box-shadow: 0 0 20px 5px rgba(196, 196, 196, 0.9);
+    transform: scale(1.2); 
+}
+
 #places {
     position:relative;
     left:30%;
@@ -28,15 +57,23 @@ body {
 #sidebar {
     font-size:30px;
     width:350px;
+    height: 250px;
+   
+   
     
    
     position:absolute;
     top:50%;
     right:100px;
     transform:translateY(-100px);
-    background-color:#333;
+   
     color:rgb(184, 181, 181);
     padding:10px;
+  
+    backdrop-filter: blur(20px); 
+    border: 2px solid white;
+    border-radius: 10px;
+    
    
 }
 #redpoint{
@@ -69,23 +106,29 @@ body {
 }
 .line {
     position: absolute;
-    background-color: white;
-    height: 4px;
-    z-index: -1; 
+    background-color: rgba(238, 238, 238, 0.668);
+    height: 7px;
+    z-index: -1;
+    backdrop-filter: blur(10px);
+   
 }
 .linepoints{
-    position:absolute;
-    transform: translate(-50%,-50%);
-    background-color:grey;
-    
+    position: absolute;
+    transform: translate(-50%, -50%);
+    backdrop-filter: blur(10px);
+    background-color: rgba(25, 49, 137, 0.553);
+   
     border-radius: 50%;
-    
-    
-    color:rgb(15, 15, 15);
-    font-size:25px;
-    
-  
-    
+    border: 1px solid rgba(255, 255, 255, 0.599);
+    color: rgb(227, 253, 250);
+    padding: 2px;
+    height: 25px; 
+    width: 25px; 
+    font-size: 25px; 
+    display: flex;
+    justify-content: center;
+    align-items: center;
     z-index: 1;
 }
+
 

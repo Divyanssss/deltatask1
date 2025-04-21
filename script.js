@@ -3,7 +3,7 @@ const middle = document.getElementById("middle");
 const X = window.innerWidth / 2;
 const Y = window.innerHeight / 2;
 for(let i=0;i<6;i++){
-    const r=100;
+    const r=120;
     const angle=(Math.PI/3)*i;
     const x=X+r*Math.cos(angle);
     const y=Y+r*Math.sin(angle);
@@ -13,7 +13,7 @@ for(let i=0;i<6;i++){
     
 }
 for(let i=0;i<6;i++){
-    const r=200;
+    const r=240;
     const angle=(Math.PI/3)*i;
     const x=X+r*Math.cos(angle);
     const y=Y+r*Math.sin(angle);
@@ -22,7 +22,7 @@ for(let i=0;i<6;i++){
     btn.style.top=`${y-100}px`;   
 }
 for(let i=0;i<6;i++){
-    const r=300;
+    const r=360;
     const angle=(Math.PI/3)*i;
     const x=X+r*Math.cos(angle);
     const y=Y+r*Math.sin(angle);
@@ -49,10 +49,10 @@ const pointstable={
         const btn2=document.getElementById(p2);
 
        
-            const x1=parseInt(btn1.style.left)+25; 
-            const y1=parseInt(btn1.style.top)+25;  
-            const x2=parseInt(btn2.style.left)+25;
-            const y2=parseInt(btn2.style.top)+25;
+            const x1=parseInt(btn1.style.left)+35; 
+            const y1=parseInt(btn1.style.top)+35;  
+            const x2=parseInt(btn2.style.left)+35;
+            const y2=parseInt(btn2.style.top)+35;
             const l=Math.sqrt((x2-x1)**2+(y2-y1)**2);
             let angle=(Math.atan((y2-y1)/(x2-x1))*180)/Math.PI;
             if(x1>x2){
@@ -63,6 +63,7 @@ const pointstable={
             
             const line=document.createElement("div");
             line.className="line";
+            line.id=`${p1}-${p2}`;
             line.style.width=`${l}px`;
             line.style.transform=`rotate(${angle}deg)`;
             line.style.left=`${X-l/2}px`;
@@ -178,7 +179,7 @@ function gamephase(id){
     function movetitan(id,id1,col) {
         if (rightmove(id,id1)) {
             document.getElementById(id).style.backgroundColor = col;
-            document.getElementById(id1).style.backgroundColor = "rgb(68,68,68)";
+            document.getElementById(id1).style.backgroundColor = "rgba(39, 8, 63, 0.666)";;
             if(col=="blue") {
                 document.getElementById("currentplayer").style.backgroundColor = "red";
             }else{
@@ -277,6 +278,7 @@ function points(color){
             const pos2=positions[j];
             if(pointstable[`${pos1}-${pos2}`]||pointstable[`${pos2}-${pos1}`]){
                 totalpoints=totalpoints+pointstable[`${pos1}-${pos2}`]||pointstable[`${pos2}-${pos1}`];
+                
             }
         }
     }
@@ -353,8 +355,7 @@ function restart(){
     clearInterval(endtime);
     timer();
     document.querySelectorAll("#places button").forEach(button => {
-        button.style.backgroundColor = "rgb(68,68,68)";
-        button.disabled = false;
+        button.style.backgroundColor = "rgba(39, 8, 63, 0.666)";
     });
     document.getElementById("currentplayer").style.backgroundColor = "blue";
     document.getElementById("bluepoint").innerHTML = "BLUE POINTS: 0";
