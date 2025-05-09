@@ -102,12 +102,15 @@ function gamelogic(id){
         return;
     }
    
-    timer();
+   
+   
     
     if(turn<8){
         startphase(id);
     }
-else{gamephase(id);}
+    else{gamephase(id);}
+  
+
 check();
 innercheck()}
 function startphase(id){
@@ -130,6 +133,7 @@ function startphase(id){
         redpos.push(id);
         if(turn>=3){points("red");}
     }
+    timer();
     turn++;
     
 
@@ -196,6 +200,7 @@ function gamephase(id){
             points(col);
             turn++;
             secondturn = 0;
+            timer();
         }
     }
 function rightmove(id,id1){

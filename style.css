@@ -1,8 +1,12 @@
 
 
-body {
+body html{
 
     font-family: Arial, sans-serif;
+    background-image:url('gamebackground.png');
+    background-size:cover;
+    background-repeat:no-repeat;
+    background-position:center;
 }
 
 #board {
@@ -38,6 +42,7 @@ body {
 #places button:hover {
     box-shadow: 0 0 17px 4px rgba(177, 185, 255, 0.718);
     transform: scale(1.05);
+    background-color:rgba(87, 34, 128, 0.666);
 }
 #places button:active {
     box-shadow: 0 0 20px 5px rgba(196, 196, 196, 0.9);
@@ -72,7 +77,7 @@ body {
   
     backdrop-filter: blur(20px); 
     border: 2px solid white;
-    border-radius: 10px;
+   
     
    
 }
@@ -85,24 +90,47 @@ body {
 
 #gameover {
     position:absolute;
-    top:50%;
+    top:40%;
     left:50%;
+    width: 100%;
+
     transform:translate(-50%,-50%);
     text-align:center;
     font-size:40px;
     color:white;
-    background-color:rgba(0, 0, 0, 0.8); 
+    background-color:rgba(75, 188, 228, 0.373); 
+    backdrop-filter: blur(20px); 
     padding:20px;
     border-radius:10px;
-    display:none; 
+    display:none;
+     
+    z-index: 0;
 }
 #sidebar button {
-    margin:10px 0;
+
     padding:10px 20px;
     font-size:16px;
-    background-color:white;
-    font:black;
+    background-color: rgba(255, 255, 255, 0.8);
+    color:#333;
+    border:2px solid rgba(255, 255, 255, 0.5);
+    border-radius:5px;
+
+    transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
+    font-weight: bold;
    
+    
+    }
+
+#sidebar button:hover {
+        background-color: rgba(255, 255, 255, 1);
+        box-shadow: 0 6px 10px rgba(0, 0, 0, 0.2);
+        transform: scale(1.05);
+    }
+
+#sidebar button:active {
+        background-color: rgba(230, 230, 230, 1);
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        transform: scale(0.95);
 }
 .line {
     position: absolute;
@@ -130,5 +158,4 @@ body {
     align-items: center;
     z-index: 1;
 }
-
 
